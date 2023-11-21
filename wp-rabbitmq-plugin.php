@@ -4,7 +4,7 @@
  * Plugin Name:       WordPress RabbitMQ Connector Plugin
  * Plugin URI:         http://mokech.ir/
  * Description:       The WP RabbitMQ Connector WordPress Plugin enables seamless integration between your WordPress website and RabbitMQ messaging services.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Mohammad Keshavarz
  * Author URI:        http://mokech.ir/
  * License:           GPL-2.0+
