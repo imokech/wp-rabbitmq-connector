@@ -15,11 +15,11 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use WPRabbitMQPlugin\RabbitMQ\Connector;
+use WPRabbitMQConnectorPlugin\RabbitMQ\Connector;
 
 class WP_RabbitMQ_Plugin
 {
-    private static WP_RabbitMQ_Plugin $instance;
+    private static $instance;
     private $rabbitmq_connector;
 
     private function __construct()
@@ -27,8 +27,8 @@ class WP_RabbitMQ_Plugin
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
 
-        $this->rabbitmq_connector = Connector::get_instance();
         $this->setup_hooks();
+        $this->init_rabbitmq_connector();
     }
 
     public static function get_instance()
@@ -40,39 +40,33 @@ class WP_RabbitMQ_Plugin
 
     private function init_rabbitmq_connector() {
         $options = get_option('rabbitmq_plugin_options', array());
-        $this->rabbitmq_connector = Connector::getInstance($options);
+        $this->rabbitmq_connector = Connector::get_instance($options);
     }
 
     private function setup_hooks()
     {
-        add_action('publish_post', array($this, 'publish_message_on_post_publish'), 10, 2);
-
+        /**
         register_activation_hook(__FILE__, array($this, 'consume_messages_on_activation'));
+         */
 
         add_action('init', array($this, 'rabbitmq_hook_init'));
     }
 
-    public function publish_message_on_post_publish(int $ID, $post)
-    {
-        $message = 'Post Published: ' . $post->post_title;
-        $queue_name = 'post_publish_queue';
-
-        $this->rabbitmq_connector->publish_message($message, $queue_name);
-    }
-
+    /**
     public function consume_messages_on_activation()
     {
-        $queue_name = 'post_publish_queue';
+    $queue_name = 'post_publish_queue';
 
-        $callback = function ($msg) {
-            // Handle the received message
-            echo 'Received: ', $msg->body, PHP_EOL;
-        };
+    $callback = function ($msg) {
+    // Handle the received message
+    echo 'Received: ', $msg->body, PHP_EOL;
+    };
 
-        $this->rabbitmq_connector->consume_messages($queue_name, $callback);
+    $this->rabbitmq_connector->consume_messages($queue_name, $callback);
     }
+     */
 
-    public function get_rabbitmq_connector(): Connector
+    public function get_rabbitmq_connector()
     {
         return $this->rabbitmq_connector;
     }
@@ -172,7 +166,8 @@ class WP_RabbitMQ_Plugin
         return $sanitized_options;
     }
 
-    public function section_callback() {
+    public function section_callback()
+    {
         // Section callback, if needed
     }
 

@@ -1,6 +1,8 @@
 <?php
 
-namespace WPRabbitMQPlugin\RabbitMQ;
+namespace WPRabbitMQConnectorPlugin\RabbitMQ;
+
+use Exception;
 
 class Connector
 {
@@ -8,24 +10,35 @@ class Connector
     private $connection;
     private $channel;
 
-    private function __construct(array $options)
+    private function __construct(array $options = [])
     {
-        $user = $options['rabbitmq_user'] ?? 'guest';
-        $pass = $options['rabbitmq_pass'] ?? 'guest';
-        $port = $options['rabbitmq_port'] ?? 5672;
-        $ip   = $options['rabbitmq_ip'] ?? 'localhost';
+        if (
+            !isset($options['rabbitmq_user'])
+            && !isset($options['rabbitmq_pass'])
+            && !isset($options['rabbitmq_port'])
+            && !isset($options['rabbitmq_ip'])
+        ) return null;
 
-        $this->connection = new \PhpAmqpLib\Connection\AMQPStreamConnection(
-            $ip,
-            $port,
-            $user,
-            $pass
-        );
+        $user = $options['rabbitmq_user'];
+        $pass = $options['rabbitmq_pass'];
+        $port = $options['rabbitmq_port'];
+        $ip   = $options['rabbitmq_ip'];
 
-        $this->channel = $this->connection->channel();
+        try {
+            $this->connection = new \PhpAmqpLib\Connection\AMQPStreamConnection(
+                $ip,
+                $port,
+                $user,
+                $pass
+            );
+
+            $this->channel = $this->connection->channel();
+        } catch (Exception $exception) {
+
+        }
     }
 
-    public static function get_instance(): Connector
+    public static function get_instance()
     {
         if (is_null(self::$instance))
             self::$instance = new self();
