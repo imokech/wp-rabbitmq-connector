@@ -38,10 +38,10 @@ class Connector
         }
     }
 
-    public static function get_instance()
+    public static function get_instance(array $options = [])
     {
         if (is_null(self::$instance))
-            self::$instance = new self();
+            self::$instance = new self($options);
         return self::$instance;
     }
 
