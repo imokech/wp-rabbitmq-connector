@@ -5,7 +5,7 @@
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '7b2968a23d2acf14fd06f69be603579481676b6d',
+        'reference' => 'a6d4f019a5662166e3a64ff6275b8bfaedc24cd4',
         'name' => 'imokech/wp-rabbitmq-connector',
         'dev' => true,
     ),
@@ -25,7 +25,7 @@
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '7b2968a23d2acf14fd06f69be603579481676b6d',
+            'reference' => 'a6d4f019a5662166e3a64ff6275b8bfaedc24cd4',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(

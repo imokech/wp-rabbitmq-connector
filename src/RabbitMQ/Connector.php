@@ -3,7 +3,6 @@
 namespace WPRabbitMQConnectorPlugin\RabbitMQ;
 
 use Exception;
-use PhpAmqpLib\Message\AMQPMessage;
 
 class Connector
 {
@@ -87,7 +86,7 @@ class Connector
     {
         $routing_key = '';
         $this->channel->exchange_declare($exchange_name, $exchange_type, false, $durable, false);
-        $message = new \PhpAmqpLib\Connection\AMQPMessage($message_body, ['content_type' => 'application/json']);
+        $message = new \PhpAmqpLib\Message\AMQPMessage($message_body, ['content_type' => 'application/json']);
         $this->channel->basic_publish($message, $exchange_name, $routing_key);
     }
 
